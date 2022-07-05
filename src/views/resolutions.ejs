@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TechAskMe</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" href="/css/home.css" rel="stylesheet">
+    </head>
+    <body>
+
+    <div class="container">
+        <div class="header">
+            <div class="content">
+            <a href="/">TechAskMe</a>
+            <a href="/asks/new-ask">Perguntar</a>
+            <a href="/users/profile">Perfil</a>
+            <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="wrapper">
+            <% if (locals.resolutions) { %>
+            <% resolutions.forEach(function(resolution) { %>
+                <div class="card">
+                    <h2><a href="#">Autor:  <%= resolution.user.name %></a></h2>
+                    <p class="text"> <%= resolution.description %> </p>
+
+                    <p class="date">Escrita em: <%= resolution.created_at.toLocaleDateString('pt-BR', {timeZone: 'UTC'}) %></p>
+                <% if (locals.askBelongeUser) { %>
+                    <form action="/resolutions/superlike" method="post">
+                            <label for="superlike">👍 SuperLike 👍</label>&nbsp;
+                            <% console.log(locals.availableSuperLike) %>
+                            <% if (locals.availableSuperLike == true) { %>
+                            <input name="superlike" type="checkbox">
+                            <input type="hidden" name="ask_id" value="<%=ask_id%>">
+                            <input type="hidden" name="resolutionId" value="<%=resolution.id%>">
+                            <input type="submit" value="Enviar">
+                            <% } %>
+
+                    </form>
+                <% } %>
+                </div>
+            <% }) %>
+
+                <% if (locals.resolutions == false) { %>
+                    <h1 class="allow">Ops.. nada por aqui!! Seja o primeiro a ajudar 😄</h1>
+                <% } %>
+            <% } %>
+        </div>
+
+
+    </div>
+
+
+</body>
+</html>

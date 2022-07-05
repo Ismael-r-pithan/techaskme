@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+  emailVerify String
+  ativo       Boolean  @default(false)
+  Asks        Asks[]
+
+  Like       Like[]
+  Resolution Resolution[]
+  @@map("user")
+}
+
+model Asks {
+  id          String   @id @default(uuid())
+  description String
+  created_at  DateTime @default(now())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+
+  Like       Like[]
+  Resolution Resolution[]
+  Image      Image[]
+  @@map("asks")
+}
+
+model Like {
+  id            String      @id @default(uuid())
+  enjoy         Boolean?
+  user_id       String
+  user          User        @relation(fields: [user_id], references: [id])
+  ask_id        String?
+  ask           Asks?       @relation(fields: [ask_id], references: [id])
+  resolution_id String?
+  resolution    Resolution? @relation(fields: [resolution_id], references: [id])
+
+  @@map("like")
+}
+
+model Resolution {
+  id          String   @id @default(uuid())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  ask_id      String
+  ask         Asks     @relation(fields: [ask_id], references: [id])
+  superlike   Boolean? @default(false)
+  created_at  DateTime @default(now())
+  description String
+  Like        Like[]
+
+  @@map("resolution")
+}
+
+model Image {
+  id     String  @id @default(uuid())
+  ask_id String
+  url    String
+  urlImg String?
+  ask    Asks    @relation(fields: [ask_id], references: [id])
+
+  @@map("images")
+}

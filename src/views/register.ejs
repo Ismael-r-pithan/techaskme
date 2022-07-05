@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+           <form action="/users" method="post"  class="sign-up-form">
+            <h2 class="title">Cadastre-se</h2>
+            <div class="input-field">
+              <input name="name" type="text" placeholder="Username" />
+            </div>
+            <% if (locals.errors && errors.name) { %>
+                <p class="error"><%= errors.name %></p>
+            <% } %>
+            <div class="input-field">
+              <input name="email" type="email" placeholder="Email" />
+            </div>
+            <% if (locals.errors && errors.email) { %>
+                <p class="error"><%= errors.email %></p>
+            <% } %>
+            <div class="input-field">
+              <input name="password" type="password" placeholder="Password" />
+            </div>
+            <% if (locals.errors && errors.password) { %>
+                <p class="error"><%= errors.password %></p>
+            <% } %>
+                <input type="submit" class="btn" value="Enviar" />
+          </form>
+    </div>
+</body>
+</html>

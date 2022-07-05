@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TechAskMe</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" href="/css/home.css" rel="stylesheet">
+    </head>
+    <body>
+    <div class="container">
+        <div class="header">
+
+            <div class="content">
+            <a href="/">TechAskMe</a>
+
+            <a href="/asks/new-ask">Perguntar</a>
+
+            <% if (locals.userSession) { %>
+                <a href="/users/profile">Perfil</a>
+                <a href="/logout">Logout</a>
+
+            <% } else { %>
+                <a href="/signIn">
+                    Login
+                </a>
+            <% } %>
+
+            
+            <% if (!locals.userSession) { %>
+                <a href="/register">
+                Cadastre-se
+                </a>
+            <% } %>
+            </div>
+        </div>
+
+        <div class="wrapper">
+
+            <% if (locals.asks) { %>
+            <% asks.forEach(function(ask) { %>
+                <div class="card">
+                    <h2><a href="#">Autor:  <%= ask.user.name %></a></h2>
+                    <p class="text"> <%= ask.description %> </p>
+
+                    <% if (locals.userSession) { %>
+                        <button class="btn"><a href="/resolutions/help/<%=ask.id%>">Ajude</a></button>
+                        <button class="btn"><a href="/resolutions/<%=ask.id%>">Respostas</a></button>
+                        <form action="/likes" method="post">
+                            👍&nbsp; <select  name="enjoy">
+
+                                    <option name="enjoy" value="true">Like</option> 
+                                    <option name="enjoy" value="false">Deslike</option> 
+         
+                            </select> 
+                            <input type="hidden" name="user_id" value="<%= userSession.userId %>">
+                            <input type="hidden" name="ask_id" value="<%= ask.id %>">
+                            <input type="submit" value="Enviar">
+                        </form>
+                    <% } else { %>
+                        <button class="btn"><a href="/signIn">Ajude</a></button>
+                        <button class="btn"><a href="/signIn">Respostas</a></button>
+                    <% } %>
+                    <p class="date">Escrita em: <%= ask.created_at.toLocaleDateString('pt-BR', {timeZone: 'UTC'}) %></p>
+                </div>
+            <% }) %>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

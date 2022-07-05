@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TechAskMe</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" href="/css/home.css" rel="stylesheet">
+    </head>
+    <body>
+
+    <div class="container">
+        <div class="header">
+            <% if (locals.user) { %>
+            <div class="content">
+                <a href="#">Olá <%=user.name%></a>
+
+                <a href="/asks/new-ask">Perguntar</a>
+                <a href="/users/profile">Perfil</a>
+                <a href="/logout">Logout</a>
+                </a>
+            <% } %>
+
+            
+            </div>
+        </div>
+
+        <div class="wrapper">
+
+        <% if (locals.user) { %>
+                <div class="card">
+                    <h2><a href="#"><%=user.name%></a></h2>
+                    <p class="text">👨‍🎓 Total de perguntas: <%=totalAsks%></p>
+                    <p class="text">🤓 Total de resoluções: <%=totalResolutions%></p>
+                    <p class="text">👍 Total de curtidas : <%=likes%></p>
+                    <p class="text">👎 Total de deslikes : <%=deslikes%></p>
+                    <p class="date">Entrou na plataforma em: <%= user.created_at.toLocaleDateString('pt-BR', {timeZone: 'UTC'}) %></p>
+                </div>
+            <% } %>
+        </div> 
+
+
+            <% asksUser.forEach(function(ask) { %>
+
+                <div class="card">
+                    <h2><a href="#">Autor:  <%= user.name %></a></h2>
+                    <p class="text"> <%= ask.description %> </p>
+
+                    <p class="date">Escrita em: <%= ask.created_at.toLocaleDateString('pt-BR', {timeZone: 'UTC'}) %></p>
+                </div>
+            <% }) %>
+
+        </div> 
+    </div>  
+
+
+</body>
+</html>
